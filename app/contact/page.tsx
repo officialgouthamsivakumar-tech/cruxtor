@@ -1,285 +1,175 @@
-"use client";
+'use client'
 
-import { useState } from "react";
-import { Mail, Phone, MapPin, Send, CheckCircle } from "lucide-react";
+import { useState } from 'react'
+import Header from '../components/Header'
+import '../globals.css'
 
-export default function Contact() {
+export default function ContactPage() {
   const [formData, setFormData] = useState({
-    name: "",
-    email: "",
-    company: "",
-    phone: "",
-    subject: "",
-    message: "",
-  });
-  const [submitted, setSubmitted] = useState(false);
+    name: '',
+    email: '',
+    mobile: '',
+    message: ''
+  })
+  const [attachments, setAttachments] = useState<File[]>([])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setAttachments(Array.from(e.target.files))
+    }
+  }
 
   const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault();
-    // Here you would typically send the form data to your backend
-    console.log("Form submitted:", formData);
-    setSubmitted(true);
-    setTimeout(() => {
-      setSubmitted(false);
-      setFormData({
-        name: "",
-        email: "",
-        company: "",
-        phone: "",
-        subject: "",
-        message: "",
-      });
-    }, 3000);
-  };
-
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement | HTMLSelectElement>
-  ) => {
-    setFormData({
-      ...formData,
-      [e.target.name]: e.target.value,
-    });
-  };
+    e.preventDefault()
+    console.log('Form submitted:', formData, attachments)
+    alert('Thank you for your inquiry! We will get back to you soon.')
+    setFormData({ name: '', email: '', mobile: '', message: '' })
+    setAttachments([])
+  }
 
   return (
-    <div className="bg-white">
-      {/* Header */}
-      <section className="bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h1 className="text-4xl sm:text-5xl font-bold mb-4">Contact Us</h1>
-          <p className="text-xl text-gray-300 max-w-3xl">
-            Get in touch with our team to discuss your screening and processing needs. 
-            We're here to help you find the perfect solution.
-          </p>
-        </div>
-      </section>
+    <div>
+      <Header />
 
       {/* Contact Section */}
-      <section className="py-16">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12">
-            {/* Contact Info */}
-            <div>
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Get in Touch</h2>
-              <p className="text-lg text-gray-600 mb-8">
-                Whether you need a quote, technical support, or have questions about our products, 
-                our team is ready to assist you.
+      <section className="contact">
+        <div className="contact-container">
+          <h2 className="section-title">Contact Us</h2>
+          <p className="section-subtitle">Drop us a line!</p>
+          
+          <div className="contact-grid">
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="email">Email*</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="mobile">Mobile number</label>
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleInputChange}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="files">Attach Files</label>
+                <div className="file-upload">
+                  <input
+                    type="file"
+                    id="files"
+                    multiple
+                    onChange={handleFileChange}
+                  />
+                  <p>Attachments ({attachments.length})</p>
+                </div>
+              </div>
+              
+              <button type="submit" className="btn btn-submit">Send</button>
+              <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
+                This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
               </p>
-
-              <div className="space-y-6">
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Phone className="text-blue-600" size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-1">Phone</h3>
-                    <p className="text-gray-600">+1 (555) 123-4567</p>
-                    <p className="text-gray-600">Mon-Fri: 8:00 AM - 6:00 PM EST</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <Mail className="text-blue-600" size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-1">Email</h3>
-                    <p className="text-gray-600">info@cruxstor.com</p>
-                    <p className="text-gray-600">sales@cruxstor.com</p>
-                  </div>
-                </div>
-
-                <div className="flex items-start space-x-4">
-                  <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center flex-shrink-0">
-                    <MapPin className="text-blue-600" size={24} />
-                  </div>
-                  <div>
-                    <h3 className="text-lg font-semibold text-slate-900 mb-1">Address</h3>
-                    <p className="text-gray-600">
-                      123 Industrial Way<br />
-                      Manufacturing City, ST 12345<br />
-                      United States
-                    </p>
-                  </div>
-                </div>
-              </div>
-
-              <div className="mt-8 p-6 bg-blue-50 rounded-lg border border-blue-100">
-                <h3 className="text-lg font-semibold text-slate-900 mb-2">
-                  Emergency Support
-                </h3>
-                <p className="text-gray-700 mb-2">
-                  For urgent technical support outside business hours, please call our 24/7 hotline:
-                </p>
-                <p className="text-blue-600 font-semibold text-lg">
-                  +1 (555) 123-HELP
+            </form>
+            
+            <div className="contact-info">
+              <div className="info-box">
+                <h3>MAIL US YOUR REQUIREMENT</h3>
+                <p>
+                  For inquiries about our advanced screening solutions, including fine screening technology and high frequency screens for M Sand Plants and sugar graders, please reach out to SALES@CRUXTOR.COM.
                 </p>
               </div>
-            </div>
-
-            {/* Contact Form */}
-            <div className="bg-gray-50 rounded-xl p-8 border border-slate-200">
-              <h2 className="text-3xl font-bold text-slate-900 mb-6">Send us a Message</h2>
-
-              {submitted ? (
-                <div className="bg-green-50 border border-green-200 rounded-lg p-6 text-center">
-                  <CheckCircle className="text-green-600 mx-auto mb-4" size={48} />
-                  <h3 className="text-xl font-semibold text-green-900 mb-2">
-                    Thank You!
-                  </h3>
-                  <p className="text-green-700">
-                    Your message has been sent successfully. We'll get back to you soon.
-                  </p>
-                </div>
-              ) : (
-                <form onSubmit={handleSubmit} className="space-y-6">
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="name"
-                        className="block text-sm font-medium text-slate-900 mb-2"
-                      >
-                        Name *
-                      </label>
-                      <input
-                        type="text"
-                        id="name"
-                        name="name"
-                        required
-                        value={formData.name}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="email"
-                        className="block text-sm font-medium text-slate-900 mb-2"
-                      >
-                        Email *
-                      </label>
-                      <input
-                        type="email"
-                        id="email"
-                        name="email"
-                        required
-                        value={formData.email}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-6">
-                    <div>
-                      <label
-                        htmlFor="company"
-                        className="block text-sm font-medium text-slate-900 mb-2"
-                      >
-                        Company
-                      </label>
-                      <input
-                        type="text"
-                        id="company"
-                        name="company"
-                        value={formData.company}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-
-                    <div>
-                      <label
-                        htmlFor="phone"
-                        className="block text-sm font-medium text-slate-900 mb-2"
-                      >
-                        Phone
-                      </label>
-                      <input
-                        type="tel"
-                        id="phone"
-                        name="phone"
-                        value={formData.phone}
-                        onChange={handleChange}
-                        className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                      />
-                    </div>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="subject"
-                      className="block text-sm font-medium text-slate-900 mb-2"
-                    >
-                      Subject *
-                    </label>
-                    <select
-                      id="subject"
-                      name="subject"
-                      required
-                      value={formData.subject}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent"
-                    >
-                      <option value="">Select a subject</option>
-                      <option value="quote">Request a Quote</option>
-                      <option value="technical">Technical Support</option>
-                      <option value="sales">Sales Inquiry</option>
-                      <option value="custom">Custom Solution</option>
-                      <option value="other">Other</option>
-                    </select>
-                  </div>
-
-                  <div>
-                    <label
-                      htmlFor="message"
-                      className="block text-sm font-medium text-slate-900 mb-2"
-                    >
-                      Message *
-                    </label>
-                    <textarea
-                      id="message"
-                      name="message"
-                      required
-                      rows={6}
-                      value={formData.message}
-                      onChange={handleChange}
-                      className="w-full px-4 py-2 border border-slate-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-transparent resize-none"
-                      placeholder="Tell us about your project or inquiry..."
-                    />
-                  </div>
-
-                  <button
-                    type="submit"
-                    className="w-full inline-flex items-center justify-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
-                  >
-                    Send Message
-                    <Send className="ml-2" size={20} />
-                  </button>
-                </form>
-              )}
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* Map Section Placeholder */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <h2 className="text-3xl font-bold text-slate-900 mb-8 text-center">
-            Visit Our Facility
-          </h2>
-          <div className="bg-slate-200 rounded-xl h-96 flex items-center justify-center">
-            <div className="text-center text-gray-500">
-              <MapPin className="mx-auto mb-4" size={48} />
-              <p className="text-lg font-medium">Map integration can be added here</p>
-              <p className="text-sm">123 Industrial Way, Manufacturing City, ST 12345</p>
+              
+              <div className="info-box">
+                <h3>Cruxtor</h3>
+                <p>606 Rama Equator, Morewadi, :Pimpri, Pune, MH 411018</p>
+                <p>sales@cruxtor.com</p>
+              </div>
+              
+              <div className="info-box">
+                <h3>Hours</h3>
+                <table className="hours-table">
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Hours</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Mon</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Tue</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Wed</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Thu</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Fri</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Sat</td>
+                      <td>Closed</td>
+                    </tr>
+                    <tr>
+                      <td>Sun</td>
+                      <td>Closed</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
             </div>
           </div>
         </div>
       </section>
     </div>
-  );
+  )
 }
-

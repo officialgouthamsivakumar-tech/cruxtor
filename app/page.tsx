@@ -1,473 +1,846 @@
-import Link from "next/link";
-import Image from "next/image";
-import { ArrowRight, CheckCircle, Shield, Cog, Zap, Waves, Droplets, Box, Bolt, Download, FileText } from "lucide-react";
+'use client'
+
+import { useState } from 'react'
+import NextImage from 'next/image'
+import Header from './components/Header'
+import './globals.css'
 
 export default function Home() {
+  const [showCookieNotice, setShowCookieNotice] = useState(true)
+  const [formData, setFormData] = useState({
+    name: '',
+    email: '',
+    mobile: '',
+    message: ''
+  })
+  const [subscribeEmail, setSubscribeEmail] = useState('')
+  const [attachments, setAttachments] = useState<File[]>([])
+
+  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
+    const { name, value } = e.target
+    setFormData(prev => ({
+      ...prev,
+      [name]: value
+    }))
+  }
+
+  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files) {
+      setAttachments(Array.from(e.target.files))
+    }
+  }
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    // Handle form submission here
+    console.log('Form submitted:', formData, attachments)
+    alert('Thank you for your inquiry! We will get back to you soon.')
+    setFormData({ name: '', email: '', mobile: '', message: '' })
+    setAttachments([])
+  }
+
+  const handleSubscribe = (e: React.FormEvent) => {
+    e.preventDefault()
+    console.log('Subscribe:', subscribeEmail)
+    alert('Thank you for subscribing!')
+    setSubscribeEmail('')
+  }
+
   return (
-    <div className="bg-white">
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-br from-slate-900 via-slate-800 to-slate-900 text-white overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%239C92AC' fill-opacity='0.4'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E")`,
-            backgroundSize: '60px 60px'
-          }}></div>
-        </div>
-        <div className="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-24 sm:py-32">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
-            <div className="text-center lg:text-left">
-              <h1 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-6">
-                CRUXSTOR<br />
-                <span className="text-blue-400">Advanced Screening & Sand Processing Systems</span>
-              </h1>
-              <p className="text-xl sm:text-2xl text-gray-300 mb-8 max-w-3xl mx-auto lg:mx-0">
-                Precision-engineered industrial equipment for efficient material processing, 
-                separation, and quality assurance in manufacturing operations.
+    <div>
+      <Header />
+
+      {/* Hero Section - Home */}
+      <section id="home" className="hero-home">
+        <div className="hero-home-container">
+          <div className="hero-content-left">
+            <div className="content-section">
+              <h2 className="content-heading">Advanced Screening Technology</h2>
+              <p className="content-text">
+                CRUXTOR High Frequency Screens represent the pinnacle of screening technology, engineered specifically for modern industrial applications. Our purpose-built solutions deliver precise particle size distribution control, ensuring optimal performance across diverse industries.
               </p>
-              <div className="flex flex-col sm:flex-row gap-4 justify-center lg:justify-start">
-                <Link
-                  href="/products"
-                  className="inline-flex items-center justify-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
-                >
-                  View Products
-                  <ArrowRight className="ml-2" size={20} />
-                </Link>
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center justify-center px-8 py-3 bg-transparent border-2 border-white hover:bg-white hover:text-slate-900 text-white font-semibold rounded-lg transition-colors duration-200"
-                >
-                  Get a Quote
-                </Link>
+              <ul className="content-features">
+                <li>Operating speeds from 2,800 to 6,000 RPM for precise separation</li>
+                <li>Stainless steel screening media for high-purity applications</li>
+                <li>Energy-efficient operation with ultra-low power consumption</li>
+                <li>Non-blinding performance even with fine materials</li>
+                <li>Compact design with high throughput capacity</li>
+              </ul>
+            </div>
+
+            <div className="content-section">
+              <h2 className="content-heading">Key Applications</h2>
+              <div className="applications-grid-small">
+                <div className="app-item">
+                  <strong>M Sand Production</strong>
+                  <p>Manufactured sand with precise gradation control</p>
+                </div>
+                <div className="app-item">
+                  <strong>Sugar Grading</strong>
+                  <p>Accurate particle size classification for sugar processing</p>
+                </div>
+                <div className="app-item">
+                  <strong>Mineral Processing</strong>
+                  <p>Efficient screening for metallic and non-metallic minerals</p>
+                </div>
+                <div className="app-item">
+                  <strong>Fertilizer Industry</strong>
+                  <p>Reliable grading for various fertilizer formulations</p>
+                </div>
               </div>
             </div>
-            <div className="relative h-96 w-full rounded-xl overflow-hidden shadow-2xl">
-              <Image
-                src="https://images.unsplash.com/photo-1684610366499-34848a736d4f?w=1200&h=800&fit=crop&auto=format"
-                alt="Bulldozer with building in the background - CRUXSTOR Equipment"
-                fill
-                className="object-cover"
-                priority
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
+          </div>
+
+          <div className="hero-content-panel">
+            <p className="welcome-text">WELCOME</p>
+            <h1 className="hero-main-heading">High Frequency Screen - fine screening technology used widely in M Sand Plant and Sugar Grader</h1>
+            <p className="hero-description-text">
+              The high frequency screen is an essential component of advanced screening solutions, designed for the fine screening technology of solid bulk material. It plays a crucial role in M Sand Plant operations and also serves effectively as a sugar grader.
+            </p>
+            <div className="hero-buttons-vertical">
+              <a href="#contact" className="btn-hero">CONTACT FOR MORE</a>
+              <a href="#about" className="btn-hero">LEARN MORE</a>
+            </div>
+          </div>
+        </div>
+        
+        {/* TrustedSite Badge */}
+        <div className="trusted-badge">
+          <div className="trusted-badge-content">
+            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" xmlns="http://www.w3.org/2000/svg">
+              <path d="M10 0L12.2451 6.90983H19.5106L13.6327 11.1803L15.8779 18.0902L10 13.8197L4.12215 18.0902L6.36729 11.1803L0.489435 6.90983H7.75486L10 0Z" fill="white"/>
+            </svg>
+            <span>TrustedSite</span>
+          </div>
+        </div>
+
+        {/* Chat Icon */}
+        <div className="chat-icon">
+          <svg width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M20 2H4C2.9 2 2 2.9 2 4V22L6 18H20C21.1 18 22 17.1 22 16V4C22 2.9 21.1 2 20 2ZM20 16H6L4 18V4H20V16Z" fill="white"/>
+            <path d="M7 9H17V11H7V9ZM7 12H15V14H7V12Z" fill="white"/>
+          </svg>
+        </div>
+      </section>
+
+      {/* Sand Section */}
+      <section id="sand" className="product-section">
+        <div className="product-section-container">
+          <div className="product-visual">
+            <NextImage 
+              src="/sand.png" 
+              alt="Sand Screening Solutions" 
+              width={800}
+              height={600}
+              className="product-image"
+            />
+          </div>
+          <div className="product-content-panel">
+            <p className="welcome-text">SAND</p>
+            <h2 className="product-heading">High Frequency Screen for Sand Processing</h2>
+            <p className="product-description">
+              Our high frequency screens are specifically designed for sand processing applications, providing efficient and precise screening for M Sand plants. The advanced screening technology ensures optimal particle separation and high throughput rates.
+            </p>
+            <div className="hero-buttons-vertical">
+              <a href="#contact" className="btn-hero">CONTACT FOR MORE</a>
+              <a href="#about" className="btn-hero">LEARN MORE</a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* CRUXTOR Philosophy Section */}
-      <section className="py-16 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-start">
-            {/* Left Side - Text Content */}
-            <div>
-              <h2 className="text-4xl sm:text-5xl font-bold mb-8 text-yellow-400 italic">
-                European Process Thinking.<br />
-                Indian Engineering Execution.
-              </h2>
-              
-              <div className="space-y-6 text-gray-300 text-lg leading-relaxed">
-                <p>
-                  We develop advanced material processing systems focused on separation accuracy, 
-                  consistent output, and operational efficiency. Our technology collaboration brings 
-                  European know-how into robust, serviceable systems manufactured in India.
-                </p>
-                
-                <p>
-                  We focus where conventional crushing ends — screening intelligence and process control. 
-                  Our engineering approach prioritises precision separation over brute force, ensuring 
-                  consistent particle size distribution and material quality that meets the most demanding 
-                  specifications.
-                </p>
-                
-                <p>
-                  Every system is designed with operational reality in mind: ease of maintenance, energy 
-                  efficiency, and the ability to adapt to varying input materials whilst maintaining output 
-                  quality. This is process engineering, not just equipment supply.
-                </p>
-              </div>
-            </div>
-
-            {/* Right Side - Key Features */}
-            <div className="space-y-6">
-              <div className="bg-slate-800 p-6 rounded-lg border border-slate-700">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Waves className="text-slate-900" size={32} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white">Multi-Frequency Technology</h3>
-                </div>
-              </div>
-
-              <div className="bg-slate-800 p-6 rounded-lg border border-slate-700">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Droplets className="text-slate-900" size={32} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white">Dry & Wet Systems</h3>
-                </div>
-              </div>
-
-              <div className="bg-slate-800 p-6 rounded-lg border border-slate-700">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Box className="text-slate-900" size={32} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white">Single-Chassis Design</h3>
-                </div>
-              </div>
-
-              <div className="bg-slate-800 p-6 rounded-lg border border-slate-700">
-                <div className="flex items-center space-x-4 mb-4">
-                  <div className="w-16 h-16 bg-yellow-400 rounded-full flex items-center justify-center flex-shrink-0">
-                    <Bolt className="text-slate-900" size={32} />
-                  </div>
-                  <h3 className="text-2xl font-bold text-white">Energy Efficient</h3>
-                </div>
-              </div>
+      {/* Sugar Grading Section */}
+      <section id="sugar-grading" className="product-section">
+        <div className="product-section-container">
+          <div className="product-visual">
+            <NextImage 
+              src="/sugar.png" 
+              alt="Sugar Grading Solutions" 
+              width={800}
+              height={600}
+              className="product-image"
+            />
+          </div>
+          <div className="product-content-panel">
+            <p className="welcome-text">SUGAR GRADING</p>
+            <h2 className="product-heading">High Frequency Screen for Sugar Grading</h2>
+            <p className="product-description">
+              Our specialized sugar grading screens deliver precise particle separation for sugar processing. The high frequency screening technology ensures consistent grading and quality control in sugar production facilities.
+            </p>
+            <div className="hero-buttons-vertical">
+              <a href="#contact" className="btn-hero">CONTACT FOR MORE</a>
+              <a href="#about" className="btn-hero">LEARN MORE</a>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Process Engineering Section */}
-      <section className="py-20 bg-slate-900 text-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          {/* Top Section - Text and Image */}
-          <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-16">
-            {/* Left Column - Text Content */}
-            <div>
-              <h2 className="text-4xl sm:text-5xl md:text-6xl font-bold mb-8 text-yellow-400">
-                Looking for Clean Material, Controlled Gradation, and Reliable Output?
-              </h2>
-              
-              <div className="space-y-6 text-gray-300 text-lg leading-relaxed mb-8">
-                <p>
-                  CRUXTOR engineers design solutions by first understanding your material characteristics, 
-                  output requirements, and operational constraints. We provide engineering consultation, 
-                  equipment supply, and technical support for new sand plants, upgrades, and separation 
-                  challenges.
-                </p>
-                
-                <p>
-                  Process engineering determines profitability. Let's discuss how we can help you find 
-                  the right solution for your specific needs.
-                </p>
-              </div>
-
-              <div className="text-3xl sm:text-4xl font-bold text-yellow-400 italic">
-                Precision Separation. Intelligent Processing.
-              </div>
-            </div>
-
-            {/* Right Column - Image */}
-            <div className="relative h-96 w-full rounded-xl overflow-hidden shadow-2xl">
-              <Image
-                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&h=1200&fit=crop"
-                alt="Engineer reviewing blueprints and equipment"
-                fill
-                className="object-cover"
-                sizes="(max-width: 1024px) 100vw, 50vw"
-              />
-            </div>
+      {/* Fertiliser Section */}
+      <section id="fertiliser" className="product-section">
+        <div className="product-section-container">
+          <div className="product-visual">
+            <NextImage 
+              src="/fertilizer.png" 
+              alt="Fertiliser Screening Solutions" 
+              width={800}
+              height={600}
+              className="product-image"
+            />
           </div>
-
-          {/* Statistics Section */}
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8 mb-12">
-            <div className="text-center">
-              <div className="text-6xl sm:text-7xl font-bold text-white mb-4">90%</div>
-              <h3 className="text-2xl font-semibold text-white mb-2">Separation Efficiency</h3>
-              <p className="text-gray-400 text-lg">
-                Typical partition curve performance across size fractions
-              </p>
+          <div className="product-content-panel">
+            <p className="welcome-text">FERTILISER</p>
+            <h2 className="product-heading">High Frequency Screen for Fertiliser Processing</h2>
+            <p className="product-description">
+              Our high frequency screens are engineered for fertiliser processing applications, providing efficient screening and grading of fertiliser particles. The technology ensures uniform particle size distribution and optimal product quality.
+            </p>
+            <div className="hero-buttons-vertical">
+              <a href="#contact" className="btn-hero">CONTACT FOR MORE</a>
+              <a href="#about" className="btn-hero">LEARN MORE</a>
             </div>
-
-            <div className="text-center">
-              <div className="text-6xl sm:text-7xl font-bold text-white mb-4">30%</div>
-              <h3 className="text-2xl font-semibold text-white mb-2">Energy Reduction</h3>
-              <p className="text-gray-400 text-lg">
-                Compared to conventional multi-stage screening systems
-              </p>
-            </div>
-
-            <div className="text-center">
-              <div className="text-6xl sm:text-7xl font-bold text-white mb-4">{"24/7"}</div>
-              <h3 className="text-2xl font-semibold text-white mb-2">Technical Support</h3>
-              <p className="text-gray-400 text-lg">
-                Engineering assistance available for process optimisation
-              </p>
-            </div>
-          </div>
-
-          {/* Call-to-Action Buttons */}
-          <div className="flex flex-col sm:flex-row gap-6 justify-center">
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 bg-yellow-400 hover:bg-yellow-500 text-slate-900 font-semibold rounded-lg transition-colors duration-200 text-lg"
-            >
-              <FileText className="mr-2" size={24} />
-              Contact Us for Process Study
-            </Link>
-            <Link
-              href="/contact"
-              className="inline-flex items-center justify-center px-8 py-4 bg-transparent border-2 border-yellow-400 hover:bg-yellow-400 hover:text-slate-900 text-yellow-400 font-semibold rounded-lg transition-colors duration-200 text-lg"
-            >
-              <Download className="mr-2" size={24} />
-              Download Technical Brochures
-            </Link>
           </div>
         </div>
       </section>
 
-      {/* Features Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              Why Choose CRUXSTOR?
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Industry-leading solutions backed by decades of engineering excellence
+      {/* Quartz Powder Section */}
+      <section id="quartz-powder" className="quartz-section">
+        <div className="quartz-container">
+          <h1 className="quartz-main-title">Quartz Powder Processing with High Frequency Screens</h1>
+          <h2 className="quartz-subtitle">QUARTZ</h2>
+          <p className="quartz-intro">High Frequency Screens for Quartz Processing & Quartz Powder Production</p>
+          
+          <div className="quartz-content">
+            <p className="quartz-text">
+              High Frequency Screens are advanced quartz processing equipment designed for precise particle size classification in quartz sand and quartz powder production plants. Operating at speeds ranging from 2,800 to 6,000 RPM, these screens are engineered to handle the hard, abrasive, and brittle characteristics of quartz while ensuring consistent quality and high throughput.
+            </p>
+            
+            <p className="quartz-text">
+              The system utilizes stainless steel (SS) screening media, making it particularly suitable for applications that demand high purity, dimensional accuracy, and long service life.
+            </p>
+
+            <h3 className="quartz-heading">Why High Frequency Screens Are Ideal for Quartz Processing</h3>
+            <p className="quartz-text">
+              Quartz processing requires sharp separation, minimal contamination, and reliable performance at fine sizes. High Frequency Screens effectively meet these needs through high-speed vibration and rigid SS screen decks.
+            </p>
+
+            <h3 className="quartz-heading">Precise Fine Screening of Quartz Sand</h3>
+            <p className="quartz-text">High vibration speeds enable:</p>
+            <ul className="quartz-list">
+              <li>Accurate separation below 1 mm</li>
+              <li>Narrow and repeatable particle size distribution (PSD)</li>
+              <li>Clean segregation of quartz sand grades</li>
+            </ul>
+            <p className="quartz-text">
+              This makes High Frequency Screens perfect for quartz sand classification, beneficiation plants, and controlled feed preparation for grinding.
+            </p>
+
+            <h3 className="quartz-heading">Stainless Steel Screening Media – Built for Quartz Production</h3>
+            <p className="quartz-text">The use of SS wire mesh and SS screen panels provides:</p>
+            <ul className="quartz-list">
+              <li>High resistance to abrasion from quartz</li>
+              <li>Dimensional stability at high vibration frequencies</li>
+              <li>Suitability for high-purity quartz applications</li>
+            </ul>
+            <p className="quartz-text">
+              SS media ensures consistent aperture accuracy, which is essential for both quartz sand and quartz powder production.
+            </p>
+
+            <h3 className="quartz-heading">Non-Blinding Performance with Quartz Fines</h3>
+            <p className="quartz-text">
+              At operating speeds of 2,800–6,000 RPM, the high G-force vibration prevents particle lodging in SS apertures, maintains an open screening area, and enables continuous operation without choking. This guarantees stable performance even with fine quartz material.
+            </p>
+
+            <h3 className="quartz-heading">Reduced Over-Grinding and Energy Savings</h3>
+            <p className="quartz-text">
+              Accurate screening ensures that only true oversize material returns to the mill, resulting in lower grinding energy consumption, reduced generation of ultra-fine quartz, and improved recovery of saleable size fractions. This directly lowers operating costs per ton in quartz powder manufacturing plants.
+            </p>
+
+            <h3 className="quartz-heading">High Throughput with Compact Footprint</h3>
+            <p className="quartz-text">
+              High Frequency Screens operate with a thin material bed, allowing faster particle travel and higher capacity per unit screen area. This makes them ideal for space-constrained quartz processing plants, retrofits, and capacity upgrades.
+            </p>
+
+            <h3 className="quartz-heading">Role of High Frequency Screens in Quartz Powder Production</h3>
+            <p className="quartz-text">
+              In quartz powder production, product performance heavily relies on particle size control and consistency. High Frequency Screens are integral for pre-classification before grinding, post-grinding size control, and tight PSD management for downstream applications. This enhances powder uniformity, reduces mill load, and boosts overall plant efficiency.
+            </p>
+
+            <h3 className="quartz-heading">Applications of Quartz Powder</h3>
+            <p className="quartz-text">Quartz powder screened using High Frequency Screens is extensively used in:</p>
+            <ul className="quartz-list">
+              <li>Glass and specialty glass manufacturing</li>
+              <li>Ceramics and vitrified tiles</li>
+              <li>Paints, coatings, and wall putty</li>
+              <li>Electronics and semiconductor fillers</li>
+              <li>Construction chemicals and epoxy flooring systems</li>
+            </ul>
+
+            <h3 className="quartz-heading">Key Advantages at a Glance</h3>
+            <ul className="quartz-list">
+              <li>Operating speed: 2,800–6,000 RPM</li>
+              <li>Stainless steel screening media for accuracy and durability</li>
+              <li>Sharp cut sizes for quartz sand and powder</li>
+              <li>Non-blinding performance with fine quartz</li>
+              <li>Lower grinding energy and operating cost</li>
+              <li>Compact design with high throughput</li>
+            </ul>
+
+            <h3 className="quartz-heading">Reliable Screening Technology for Quartz Processing</h3>
+            <p className="quartz-text">
+              High Frequency Screens with SS screening media are a proven solution for quartz mining, beneficiation, sand processing, and quartz powder production. They deliver consistent product quality, reduced operating costs, and long-term reliability in demanding quartz applications.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <Shield className="text-blue-600" size={24} />
-              </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">Durable & Reliable</h3>
-              <p className="text-gray-600">
-                Built to withstand the toughest industrial environments with premium materials and engineering.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <Cog className="text-blue-600" size={24} />
-              </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">Precision Engineering</h3>
-              <p className="text-gray-600">
-                State-of-the-art manufacturing processes ensuring optimal performance and accuracy.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <Zap className="text-blue-600" size={24} />
-              </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">High Efficiency</h3>
-              <p className="text-gray-600">
-                Maximize productivity with energy-efficient systems designed for optimal throughput.
-              </p>
-            </div>
-
-            <div className="bg-white p-6 rounded-lg shadow-md hover:shadow-xl transition-shadow">
-              <div className="w-12 h-12 bg-blue-100 rounded-lg flex items-center justify-center mb-4">
-                <CheckCircle className="text-blue-600" size={24} />
-              </div>
-              <h3 className="text-xl font-semibold text-slate-900 mb-2">Expert Support</h3>
-              <p className="text-gray-600">
-                Comprehensive technical support and maintenance services from installation to ongoing operations.
-              </p>
-            </div>
-          </div>
         </div>
       </section>
 
-      {/* Products Preview Section */}
-      <section className="py-16 bg-white">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              Our Product Line
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              Comprehensive solutions for all your screening and processing needs
+      {/* Silica Sand Section */}
+      <section id="silica-sand" className="quartz-section">
+        <div className="quartz-container">
+          <h1 className="quartz-main-title">About High Frequency Screen</h1>
+          <h2 className="quartz-subtitle">Silica Sand</h2>
+          <h1 className="quartz-main-title" style={{ fontSize: '2rem', marginTop: '1rem' }}>High Frequency Screens for Silica Sand Processing & Classification</h1>
+          
+          <div className="quartz-content">
+            <p className="quartz-text">
+              Silica sand processing requires <strong>high precision screening</strong>, consistent particle size distribution, and minimal contamination. High Frequency Screens are widely used in <strong>silica sand beneficiation and processing plants</strong> to achieve accurate size classification, high throughput, and reliable performance—especially in fine and ultra-fine size ranges.
+            </p>
+            
+            <p className="quartz-text">
+              Operating at <strong>2,800 to 6,000 RPM</strong>, High Frequency Screens are engineered to handle the <strong>hard, abrasive nature of silica sand</strong> while delivering sharp separation and stable operation.
+            </p>
+
+            <h3 className="quartz-heading">Why High Frequency Screens Are Ideal for Silica Sand</h3>
+            <p className="quartz-text">
+              Silica sand is used in multiple industrial applications where <strong>particle size accuracy directly affects product performance</strong>. Conventional screens often struggle with blinding, low efficiency, and inconsistent cut sizes. High Frequency Screens overcome these challenges through high-speed vibration and rigid screen construction.
+            </p>
+
+            <h3 className="quartz-heading">Accurate Fine Screening of Silica Sand</h3>
+            <p className="quartz-text">High Frequency Screens provide:</p>
+            <ul className="quartz-list">
+              <li>Sharp cut sizes below <strong>1 mm</strong></li>
+              <li>Narrow and repeatable particle size distribution (PSD)</li>
+              <li>Clean separation of multiple silica sand grades</li>
+            </ul>
+            <p className="quartz-text">
+              This makes them ideal for <strong>glass-grade silica sand</strong>, <strong>foundry sand</strong>, and <strong>industrial sand processing</strong>.
+            </p>
+
+            <h3 className="quartz-heading">Stainless Steel Screening Media for Purity</h3>
+            <p className="quartz-text">High Frequency Screens used in silica sand plants typically employ <strong>stainless steel (SS) screening media</strong>, which offers:</p>
+            <ul className="quartz-list">
+              <li>High resistance to abrasion</li>
+              <li>Dimensional accuracy at high vibration speeds</li>
+              <li>Suitability for high-purity silica sand applications</li>
+            </ul>
+            <p className="quartz-text">
+              SS screening media ensures <strong>consistent aperture control</strong>, critical for premium silica sand markets.
+            </p>
+
+            <h3 className="quartz-heading">Non-Blinding Performance with Fine Silica</h3>
+            <p className="quartz-text">
+              Fine silica particles tend to clog conventional screens. High Frequency Screens operate with:
+            </p>
+            <ul className="quartz-list">
+              <li>High G-force vibration</li>
+              <li>Low amplitude stroke</li>
+            </ul>
+            <p className="quartz-text">
+              This prevents particle lodging, maintains open screening area, and ensures <strong>continuous, clog-free operation</strong>.
+            </p>
+
+            <h3 className="quartz-heading">Reduced Over-Grinding and Energy Efficiency</h3>
+            <p className="quartz-text">
+              Accurate classification ensures that only true oversize material is sent back for grinding, resulting in:
+            </p>
+            <ul className="quartz-list">
+              <li>Lower mill power consumption</li>
+              <li>Reduced generation of excess fines</li>
+              <li>Higher recovery of usable silica sand fractions</li>
+            </ul>
+            <p className="quartz-text">
+              This improves overall <strong>plant energy efficiency and operating cost per ton</strong>.
+            </p>
+
+            <h3 className="quartz-heading">High Throughput with Compact Footprint</h3>
+            <p className="quartz-text">High Frequency Screens allow:</p>
+            <ul className="quartz-list">
+              <li>Thin material bed depth</li>
+              <li>Faster material travel across the deck</li>
+            </ul>
+            <p className="quartz-text">
+              This enables high capacity screening in a compact layout, ideal for <strong>space-constrained silica sand plants</strong> and retrofit installations.
+            </p>
+
+            <h3 className="quartz-heading">Applications of Screened & Processed Silica Sand</h3>
+            <p className="quartz-text">
+              Properly screened and processed silica sand is a critical raw material across multiple industries.
+            </p>
+
+            <h4 className="quartz-subheading">Glass Industry</h4>
+            <ul className="quartz-list">
+              <li>Float glass</li>
+              <li>Container glass</li>
+              <li>Specialty and solar glass</li>
+            </ul>
+            <p className="quartz-text" style={{ marginTop: '0.5rem' }}>
+              Requires narrow PSD and high purity silica sand.
+            </p>
+
+            <h4 className="quartz-subheading">Foundry Industry</h4>
+            <ul className="quartz-list">
+              <li>Moulding sand</li>
+              <li>Core sand</li>
+            </ul>
+            <p className="quartz-text" style={{ marginTop: '0.5rem' }}>
+              Consistent grain size improves casting quality and surface finish.
+            </p>
+
+            <h4 className="quartz-subheading">Construction & Building Materials</h4>
+            <ul className="quartz-list">
+              <li>Plaster</li>
+              <li>Flooring compounds</li>
+              <li>Specialty mortars</li>
+            </ul>
+            <p className="quartz-text" style={{ marginTop: '0.5rem' }}>
+              Screened silica sand improves strength and workability.
+            </p>
+
+            <h4 className="quartz-subheading">Ceramics & Tiles</h4>
+            <ul className="quartz-list">
+              <li>Body and glaze formulations</li>
+            </ul>
+            <p className="quartz-text" style={{ marginTop: '0.5rem' }}>
+              Controlled particle size ensures uniform firing and strength.
+            </p>
+
+            <h4 className="quartz-subheading">Paints, Coatings & Chemicals</h4>
+            <ul className="quartz-list">
+              <li>Functional fillers</li>
+              <li>Anti-abrasive additives</li>
+            </ul>
+            <p className="quartz-text" style={{ marginTop: '0.5rem' }}>
+              Fine silica sand enhances durability and chemical resistance.
+            </p>
+
+            <h4 className="quartz-subheading">Water Filtration</h4>
+            <ul className="quartz-list">
+              <li>Filter media for drinking and industrial water</li>
+            </ul>
+            <p className="quartz-text" style={{ marginTop: '0.5rem' }}>
+              Uniform grading ensures effective filtration performance.
+            </p>
+
+            <h3 className="quartz-heading">Key Advantages of High Frequency Screens in Silica Sand Plants</h3>
+            <ul className="quartz-list">
+              <li>Operating speed: <strong>2,800–6,000 RPM</strong></li>
+              <li>Precise fine screening of silica sand</li>
+              <li>Stainless steel screening media for purity and durability</li>
+              <li>Non-blinding performance with fine material</li>
+              <li>Lower grinding energy and operating costs</li>
+              <li>High throughput in a compact design</li>
+            </ul>
+
+            <h3 className="quartz-heading">Reliable Screening Technology for Silica Sand Processing</h3>
+            <p className="quartz-text">
+              High Frequency Screens are a proven solution for <strong>silica sand beneficiation plants</strong>, <strong>industrial sand processing units</strong>, and <strong>high-purity silica sand producers</strong>. They deliver consistent product quality, improved efficiency, and long-term reliability for demanding silica sand applications.
             </p>
           </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <div className="bg-white rounded-xl border border-slate-200 hover:shadow-lg transition-shadow overflow-hidden">
-              <div className="relative h-48 w-full bg-slate-100">
-                <Image
-                  src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=800&h=600&fit=crop"
-                  alt="Vibrating Screens"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-3">Vibrating Screens</h3>
-                <p className="text-gray-600 mb-4">
-                  High-capacity vibrating screens for efficient material separation and sizing across various industries.
-                </p>
-                <ul className="space-y-2">
-                  <li className="flex items-center text-gray-700">
-                    <CheckCircle className="text-blue-600 mr-2" size={18} />
-                    Multi-deck configurations
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <CheckCircle className="text-blue-600 mr-2" size={18} />
-                    Custom mesh sizes
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <CheckCircle className="text-blue-600 mr-2" size={18} />
-                    Heavy-duty construction
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl border border-slate-200 hover:shadow-lg transition-shadow overflow-hidden">
-              <div className="relative h-48 w-full bg-slate-100">
-                <Image
-                  src="https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=800&h=600&fit=crop"
-                  alt="Sand Processing Systems"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-3">Sand Processing Systems</h3>
-                <p className="text-gray-600 mb-4">
-                  Complete sand processing solutions including washing, dewatering, and classification systems.
-                </p>
-                <ul className="space-y-2">
-                  <li className="flex items-center text-gray-700">
-                    <CheckCircle className="text-blue-600 mr-2" size={18} />
-                    Water recycling systems
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <CheckCircle className="text-blue-600 mr-2" size={18} />
-                    Automated controls
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <CheckCircle className="text-blue-600 mr-2" size={18} />
-                    Energy efficient design
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            <div className="bg-white rounded-xl border border-slate-200 hover:shadow-lg transition-shadow overflow-hidden">
-              <div className="relative h-48 w-full bg-slate-100">
-                <Image
-                  src="https://images.unsplash.com/photo-1581092160607-ee22621f6b7f?w=800&h=600&fit=crop"
-                  alt="Custom Solutions"
-                  fill
-                  className="object-cover"
-                  sizes="(max-width: 768px) 100vw, (max-width: 1200px) 50vw, 33vw"
-                />
-              </div>
-              <div className="p-8">
-                <h3 className="text-2xl font-bold text-slate-900 mb-3">Custom Solutions</h3>
-                <p className="text-gray-600 mb-4">
-                  Tailored screening and processing systems designed to meet your specific operational requirements.
-                </p>
-                <ul className="space-y-2">
-                  <li className="flex items-center text-gray-700">
-                    <CheckCircle className="text-blue-600 mr-2" size={18} />
-                    Engineering consultation
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <CheckCircle className="text-blue-600 mr-2" size={18} />
-                    Custom fabrication
-                  </li>
-                  <li className="flex items-center text-gray-700">
-                    <CheckCircle className="text-blue-600 mr-2" size={18} />
-                    Turnkey installation
-                  </li>
-                </ul>
-              </div>
-            </div>
-          </div>
-
-          <div className="text-center mt-12">
-            <Link
-              href="/products"
-              className="inline-flex items-center px-8 py-3 bg-blue-600 hover:bg-blue-700 text-white font-semibold rounded-lg transition-colors duration-200"
-            >
-              Explore All Products
-              <ArrowRight className="ml-2" size={20} />
-            </Link>
-          </div>
         </div>
       </section>
 
-      {/* Image Gallery Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-          <div className="text-center mb-12">
-            <h2 className="text-3xl sm:text-4xl font-bold text-slate-900 mb-4">
-              Our Equipment in Action
-            </h2>
-            <p className="text-lg text-gray-600 max-w-2xl mx-auto">
-              See our screening and sand processing systems operating in industrial environments
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-            <div className="relative h-64 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-              <Image
-                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=800&fit=crop"
-                alt="Vibrating Screen Equipment"
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-300"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              />
-            </div>
-            <div className="relative h-64 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-              <Image
-                src="https://images.unsplash.com/photo-1577471488278-16eec37ffcc2?w=600&h=800&fit=crop"
-                alt="Sand Washing Plant"
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-300"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              />
-            </div>
-            <div className="relative h-64 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-              <Image
-                src="https://images.unsplash.com/photo-1581092160607-ee22621f6b7f?w=600&h=800&fit=crop"
-                alt="Dewatering System"
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-300"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              />
-            </div>
-            <div className="relative h-64 rounded-lg overflow-hidden shadow-lg hover:shadow-xl transition-shadow">
-              <Image
-                src="https://images.unsplash.com/photo-1581092160562-40aa08e78837?w=600&h=800&fit=crop"
-                alt="Screening Plant Operations"
-                fill
-                className="object-cover hover:scale-105 transition-transform duration-300"
-                sizes="(max-width: 768px) 100vw, (max-width: 1024px) 50vw, 25vw"
-              />
-            </div>
-          </div>
-        </div>
-      </section>
-
-      {/* CTA Section */}
-      <section className="py-16 bg-blue-600 text-white">
-        <div className="max-w-4xl mx-auto px-4 sm:px-6 lg:px-8 text-center">
-          <h2 className="text-3xl sm:text-4xl font-bold mb-4">
-            Ready to Upgrade Your Processing Operations?
-          </h2>
-          <p className="text-xl text-blue-100 mb-8">
-            Contact our team today for a free consultation and custom quote
+      {/* Technical Features Section */}
+      <section id="technical-features" className="technical-section">
+        <div className="technical-container">
+          <h2 className="section-title">CRUXTOR High Frequency Screening Technology</h2>
+          <p className="technical-intro">
+            CRUXTOR delivers high-frequency screening technology for modern manufactured sand plants, designed for precise particle size distribution control, energy efficiency, and environmentally compliant dry processing. Also used in fines screening for metallic, non-metallic minerals, chemicals in solid bulk material handling.
           </p>
-          <Link
-            href="/contact"
-            className="inline-flex items-center px-8 py-3 bg-white text-blue-600 font-semibold rounded-lg hover:bg-gray-100 transition-colors duration-200"
-          >
-            Get Started
-            <ArrowRight className="ml-2" size={20} />
-          </Link>
+          <p className="technical-tagline">
+            CUSTOM DESIGNED FOR FOOD AND AGRO PROCESSING. WIDELY USED IN FERTILISERS.
+          </p>
+
+          <div className="technical-grid">
+            <div className="technical-features-box">
+              <h3 className="technical-box-title">KEY TECHNICAL FEATURES</h3>
+              <div className="features-list">
+                <div className="feature-item">
+                  <span className="feature-number">1.</span>
+                  <span className="feature-text">Capacity range from <strong>10 TPH to 200 TPH</strong></span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">2.</span>
+                  <span className="feature-text">Custom designed size and configuration as per application requirement</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">3.</span>
+                  <span className="feature-text">Variable operating frequency from <strong>2800 to 6000 RPM</strong></span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">4.</span>
+                  <span className="feature-text">Multideck inclined screen design based on desired particle size distribution</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">5.</span>
+                  <span className="feature-text">High G-forces up to <strong>40G</strong> for sharp and efficient separation</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">6.</span>
+                  <span className="feature-text">Ultra-low energy consumption - approx. <strong>0.13 kW per ton</strong></span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">7.</span>
+                  <span className="feature-text">Low carbon footprint with energy efficient operation</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">8.</span>
+                  <span className="feature-text">No lubrication required - minimal maintenance</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">9.</span>
+                  <span className="feature-text">No water required for sand processing</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">10.</span>
+                  <span className="feature-text">Provision for dust collection system - clean and environment-friendly</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">11.</span>
+                  <span className="feature-text">Pollution control norms compliant</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">12.</span>
+                  <span className="feature-text">Each deck with independent amplitude and frequency control</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">13.</span>
+                  <span className="feature-text">Amplitude and frequency tuned per particle size for optimum output</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">14.</span>
+                  <span className="feature-text">Efficient silt removal from crusher dust</span>
+                </div>
+                <div className="feature-item">
+                  <span className="feature-number">15.</span>
+                  <span className="feature-text">Full PSD customization - top size, bottom size, and intermediate fractions</span>
+                </div>
+              </div>
+            </div>
+
+            <div className="benefits-box">
+              <h3 className="technical-box-title">CUSTOMER BENEFITS</h3>
+              <div className="benefits-list">
+                <div className="benefit-item">Higher saleable sand recovery</div>
+                <div className="benefit-item">Improved concrete strength and plaster finish</div>
+                <div className="benefit-item">Reduced recirculation and plant load</div>
+                <div className="benefit-item">Cleaner, dust-controlled working environment</div>
+                <div className="benefit-item">Consistent and repeatable particle size distribution</div>
+                <div className="benefit-item">Lower operating cost per ton</div>
+                <div className="benefit-item">Compact footprint - easy retrofit into existing plants</div>
+              </div>
+            </div>
+          </div>
+
+          <div className="purpose-built-box">
+            <h3 className="technical-box-title">CRUXTOR - PURPOSE-BUILT ENGINEERING</h3>
+            <p className="purpose-text">
+              High Frequency Screens are designed not as generic equipment, but engineered specifically for sand producers who demand performance, control, and sustainability.
+            </p>
+          </div>
+
+          <div className="psd-reference-box">
+            <h3 className="technical-box-title">IS 383 - ZONE II & PLASTER SAND PSD REFERENCE</h3>
+            <p className="psd-text">
+              CRUXTOR High Frequency Screens allow tuning of amplitude and frequency at each deck, enabling producers to achieve IS 383 Zone II compliance or plaster sand gradation without water.
+            </p>
+            <div className="psd-note">
+              <p><strong>IS 383 Zone II:</strong> Standard specification for fine aggregate (sand) for concrete</p>
+              <p><strong>Plaster Sand:</strong> Specially graded sand for plastering applications with controlled particle size distribution</p>
+            </div>
+          </div>
         </div>
       </section>
-    </div>
-  );
-}
 
+      {/* Applications Section */}
+      <section id="applications" className="applications-section">
+        <div className="applications-container">
+          <h2 className="section-title">APPLICATIONS OF HIGH FREQUENCY SCREENS</h2>
+          
+          <div className="applications-grid">
+            <div className="application-panel">
+              <h3 className="panel-header">Metallic Minerals</h3>
+              <ul className="panel-list">
+                <li>Iron ore fines</li>
+                <li>Copper ore</li>
+                <li>Zinc & lead ores</li>
+                <li>Manganese ore</li>
+                <li>Chromite</li>
+                <li>Bauxite</li>
+                <li>Gold ore (pre-classification)</li>
+              </ul>
+            </div>
+
+            <div className="application-panel">
+              <h3 className="panel-header">Non-Metallic Minerals</h3>
+              <ul className="panel-list">
+                <li>Quartz & silica sand</li>
+                <li>Feldspar</li>
+                <li>Limestone & dolomite</li>
+                <li>Kaolin & china clay</li>
+                <li>Bariter</li>
+                <li>Talc</li>
+                <li>Phosphate rock</li>
+                <li>Bentonite</li>
+                <li>Garnet</li>
+                <li>Fluorspar</li>
+              </ul>
+            </div>
+
+            <div className="application-panel">
+              <h3 className="panel-header">Sand Processing & Manufactured Sand (M-Sand)</h3>
+              <ul className="panel-list">
+                <li>Manufactured sand (M-Sand)</li>
+                <li>Plaster sand (P-Sand)</li>
+                <li>Crusher dust processing</li>
+              </ul>
+            </div>
+
+            <div className="application-panel">
+              <h3 className="panel-header">Quartz, Silica & High-Purity Materials</h3>
+              <ul className="panel-list">
+                <li>Quartz sand classification</li>
+                <li>Quartz powder production</li>
+                <li>High-purity silica sand</li>
+                <li>Foundry silica sand</li>
+                <li>Industrial silica sand</li>
+              </ul>
+            </div>
+
+            <div className="application-panel">
+              <h3 className="panel-header">Fertilizer Industry Applications</h3>
+              <ul className="panel-list">
+                <li>Urea</li>
+                <li>DAP</li>
+                <li>MAP</li>
+                <li>NPK</li>
+                <li>SSP</li>
+                <li>Potash</li>
+              </ul>
+            </div>
+
+            <div className="application-panel">
+              <h3 className="panel-header">Chemical Industry Applications</h3>
+              <ul className="panel-list">
+                <li>Soda ash</li>
+                <li>Calcium carbonate</li>
+                <li>Sodium bicarbonate</li>
+                <li>Industrial salts</li>
+                <li>Sulphur granules</li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* About Section */}
+      <section id="about" className="about">
+        <div className="about-container">
+          <h2 className="section-title">About CRUXTOR</h2>
+          <p className="section-subtitle">High Frequency Screen.</p>
+          
+          <div className="about-content">
+            <div className="about-text">
+              <p>
+                At Cruxtor, we strive to revolutionize the material handling equipment industry by providing advanced screening solutions. Our focus is on delivering innovative technologies, such as fine screening technology and high frequency screens, that enhance operational efficiency and productivity. We also cater to specific needs, including M Sand Plants and sugar graders, ensuring our clients receive the best solutions for their requirements.
+              </p>
+            </div>
+            <div className="vision-box">
+              <h3>Our Vision</h3>
+              <p>
+                At Cruxtor, we strive to revolutionize the material handling equipment industry by providing advanced screening solutions. Our focus is on delivering innovative technologies, such as fine screening technology and high frequency screens, that enhance operational efficiency and productivity. We also cater to specific needs, including M Sand Plants and sugar graders, ensuring our clients receive the best solutions for their requirements.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Section */}
+      <section id="contact" className="contact">
+        <div className="contact-container">
+          <h2 className="section-title">Contact Us</h2>
+          <p className="section-subtitle">Drop us a line!</p>
+          
+          <div className="contact-grid">
+            <form className="contact-form" onSubmit={handleSubmit}>
+              <div className="form-group">
+                <label htmlFor="name">Name</label>
+                <input
+                  type="text"
+                  id="name"
+                  name="name"
+                  value={formData.name}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="email">Email*</label>
+                <input
+                  type="email"
+                  id="email"
+                  name="email"
+                  value={formData.email}
+                  onChange={handleInputChange}
+                  required
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="mobile">Mobile number</label>
+                <input
+                  type="tel"
+                  id="mobile"
+                  name="mobile"
+                  value={formData.mobile}
+                  onChange={handleInputChange}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="message">Message</label>
+                <textarea
+                  id="message"
+                  name="message"
+                  value={formData.message}
+                  onChange={handleInputChange}
+                />
+              </div>
+              
+              <div className="form-group">
+                <label htmlFor="files">Attach Files</label>
+                <div className="file-upload">
+                  <input
+                    type="file"
+                    id="files"
+                    multiple
+                    onChange={handleFileChange}
+                  />
+                  <p>Attachments ({attachments.length})</p>
+                </div>
+              </div>
+              
+              <button type="submit" className="btn btn-submit">Send</button>
+              <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
+                This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
+              </p>
+            </form>
+            
+            <div className="contact-info">
+              <div className="info-box">
+                <h3>MAIL US YOUR REQUIREMENT</h3>
+                <p>
+                  For inquiries about our advanced screening solutions, including fine screening technology and high frequency screens for M Sand Plants and sugar graders, please reach out to SALES@CRUXTOR.COM.
+                </p>
+              </div>
+              
+              <div className="info-box">
+                <h3>Cruxtor</h3>
+                <p>606 Rama Equator, Morewadi, :Pimpri, Pune, MH 411018</p>
+                <p>sales@cruxtor.com</p>
+              </div>
+              
+              <div className="info-box">
+                <h3>Hours</h3>
+                <table className="hours-table">
+                  <thead>
+                    <tr>
+                      <th>Day</th>
+                      <th>Hours</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    <tr>
+                      <td>Mon</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Tue</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Wed</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Thu</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Fri</td>
+                      <td>09:00 am – 05:00 pm</td>
+                    </tr>
+                    <tr>
+                      <td>Sat</td>
+                      <td>Closed</td>
+                    </tr>
+                    <tr>
+                      <td>Sun</td>
+                      <td>Closed</td>
+                    </tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Subscribe Section */}
+      <section className="subscribe">
+        <div className="subscribe-container">
+          <h2>Subscribe</h2>
+          <p>
+            Sign up to hear from us about our advanced screening solutions, including specials on fine screening technology, sales related to high frequency screens, and events featuring our M Sand Plant and sugar grader.
+          </p>
+          <form className="subscribe-form" onSubmit={handleSubscribe}>
+            <input
+              type="email"
+              placeholder="Email"
+              value={subscribeEmail}
+              onChange={(e) => setSubscribeEmail(e.target.value)}
+              required
+            />
+            <button type="submit">Sign up</button>
+          </form>
+        </div>
+      </section>
+
+      {/* Footer */}
+      <footer className="footer">
+        <div className="footer-container">
+          <div className="footer-content">
+            <div className="footer-section">
+              <h3>Blog</h3>
+            </div>
+            <div className="footer-section">
+              <h3>Cruxtor</h3>
+              <p>606 Rama Equator, Morewadi, :Pimpri, Pune, MH 411018</p>
+              <p>Sales@cruxtor.com</p>
+            </div>
+          </div>
+          <div className="footer-bottom">
+            <p>Copyright © 2026 CRUXTOR - All Rights Reserved.</p>
+            <p>Powered by</p>
+          </div>
+        </div>
+      </footer>
+
+      {/* Cookie Notice */}
+      {showCookieNotice && (
+        <div className="cookie-notice">
+          <p>This website uses cookies. We use cookies to analyze website traffic and optimize your website experience. By accepting our use of cookies, your data will be aggregated with all other user data.</p>
+          <button onClick={() => setShowCookieNotice(false)}>Accept</button>
+        </div>
+      )}
+    </div>
+  )
+}

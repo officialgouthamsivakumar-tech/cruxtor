@@ -1,64 +1,50 @@
-# CRUXSTOR - Company Website
+# Cruxtor - High Frequency Screen Website
 
-A modern, professional website for CRUXSTOR, a manufacturer of Advanced Screening & Sand Processing Systems.
-
-## Technology Stack
-
-- **Next.js 16** - React framework for production
-- **TypeScript** - Type-safe development
-- **Tailwind CSS** - Utility-first CSS framework
-- **Lucide React** - Beautiful icon library
+A Next.js replica of the ScreenNX website, rebranded as Cruxtor.
 
 ## Getting Started
 
-### Installation
+First, install the dependencies:
 
 ```bash
 npm install
+# or
+yarn install
+# or
+pnpm install
 ```
 
-### Development
-
-Run the development server:
+Then, run the development server:
 
 ```bash
 npm run dev
+# or
+yarn dev
+# or
+pnpm dev
 ```
 
 Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
 
-### Build
-
-Build the production version:
+## Build for Production
 
 ```bash
 npm run build
 npm start
 ```
 
-## Project Structure
-
-```
-screening-systems-website/
-├── app/                    # Next.js app directory
-│   ├── layout.tsx         # Root layout
-│   ├── page.tsx           # Homepage
-│   ├── products/          # Products page
-│   ├── about/             # About Us page
-│   └── contact/           # Contact page
-├── components/            # React components
-│   ├── Navigation.tsx     # Navigation bar
-│   ├── Footer.tsx         # Footer component
-│   └── ...
-└── public/                # Static assets
-```
-
 ## Features
 
-- Responsive design for all devices
-- Modern industrial design aesthetic
-- Product showcase sections
-- Contact forms
-- SEO optimized
-- Fast performance with Next.js
+- Responsive design matching the original ScreenNX website
+- Contact form with file upload support
+- Subscribe newsletter functionality
+- Cookie consent notice
+- All sections from the original website
+
+## Technologies Used
+
+- Next.js 14
+- React 18
+- TypeScript
+- CSS Modules
 
