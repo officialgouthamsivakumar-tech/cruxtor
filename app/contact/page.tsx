@@ -12,8 +12,6 @@ export default function ContactPage() {
     mobile: '',
     message: ''
   })
-  const [attachments, setAttachments] = useState<File[]>([])
-
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     const { name, value } = e.target
     setFormData(prev => ({
@@ -22,20 +20,6 @@ export default function ContactPage() {
     }))
   }
 
-  const handleFileChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    if (e.target.files) {
-      const files = Array.from(e.target.files)
-      const allowedTypes = ['image/jpeg', 'image/png', 'image/gif', 'application/pdf', 'application/msword', 'application/vnd.openxmlformats-officedocument.wordprocessingml.document']
-      const validFiles = files.filter(file => {
-        if (!allowedTypes.includes(file.type)) {
-          alert(`File type ${file.type} is not allowed. Please upload images or PDF documents only.`)
-          return false
-        }
-        return true
-      })
-      setAttachments(validFiles)
-    }
-  }
 
   const sanitizeInput = (input: string, maxLength: number): string => {
     return input
@@ -72,19 +56,6 @@ export default function ContactPage() {
       return
     }
 
-    // Validate file attachments
-    if (attachments.length > 5) {
-      alert('Maximum 5 files allowed.')
-      return
-    }
-
-    const maxFileSize = 10 * 1024 * 1024 // 10MB
-    for (const file of attachments) {
-      if (file.size > maxFileSize) {
-        alert(`File ${file.name} exceeds maximum size of 10MB.`)
-        return
-      }
-    }
 
     // Email sending disabled for now
     // TODO: Enable email sending by uncommenting the code below
@@ -114,11 +85,23 @@ export default function ContactPage() {
     }
     */
     
-    // For now, just show success message without sending email
-    console.log('Form submitted (email disabled):', sanitizedData, attachments)
-    alert('Thank you for your inquiry! We will get back to you soon.')
-    setFormData({ name: '', email: '', mobile: '', message: '' })
-    setAttachments([])
+    // Open email client with mailto link
+    const subject = encodeURIComponent(`Contact Form Submission from ${sanitizedData.name}`)
+    const body = encodeURIComponent(
+      `Name: ${sanitizedData.name}\n` +
+      `Email: ${sanitizedData.email}\n` +
+      `Mobile: ${sanitizedData.mobile || 'Not provided'}\n\n` +
+      `Message:\n${sanitizedData.message}`
+    )
+    const mailtoLink = `mailto:${COMPANY_EMAIL}?subject=${subject}&body=${body}`
+    
+    // Open email client
+    window.location.href = mailtoLink
+    
+    // Reset form after a short delay
+    setTimeout(() => {
+      setFormData({ name: '', email: '', mobile: '', message: '' })
+    }, 100)
   }
 
   return (
@@ -178,23 +161,7 @@ export default function ContactPage() {
                 />
               </div>
               
-              <div className="form-group">
-                <label htmlFor="files">Attach Files</label>
-                <div className="file-upload">
-                  <input
-                    type="file"
-                    id="files"
-                    multiple
-                    onChange={handleFileChange}
-                  />
-                  <p>Attachments ({attachments.length})</p>
-                </div>
-              </div>
-              
               <button type="submit" className="btn btn-submit">Send</button>
-              <p style={{ marginTop: '1rem', fontSize: '0.9rem', color: '#666' }}>
-                This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
-              </p>
             </form>
             
             <div className="contact-info">
